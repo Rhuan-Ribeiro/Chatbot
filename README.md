@@ -6,7 +6,7 @@ Este repositório é dedicado aos projetos e exercícios desenvolvidos durante a
 O principal objetivo deste espaço é destacar minhas habilidades práticas na criação de chatbots. Aqui, você encontrará uma variedade de projetos que demonstram minha compreensão e aplicação dos conceitos aprendidos em sala de aula.
 
 ## Tecnologias
-- Linguagem de Programação: 
+- Linguagens: 
    HTML <img align="center" alt="html" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">,
    CSS <img align="center" alt="css" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">,
    Javascript <img align="center" alt="javascript" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
