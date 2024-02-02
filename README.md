@@ -5,6 +5,20 @@ Este repositório é dedicado aos projetos e exercícios desenvolvidos durante a
 ## Objetivo
 O principal objetivo deste espaço é destacar minhas habilidades práticas na criação de chatbots. Aqui, você encontrará uma variedade de projetos que demonstram minha compreensão e aplicação dos conceitos aprendidos em sala de aula.
 
+## Tecnologias
+- Linguagem de Programação: 
+   HTML <img align="center" alt="html" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">,
+   CSS <img align="center" alt="css" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">,
+   Javascript <img align="center" alt="javascript" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
+- Frameworks:
+   Django <img align="center" alt="django" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg">,
+   Nuxt.js <img align="center" alt="nuxt.js" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nuxtjs/nuxtjs-original.svg">
+- Banco de Dados:
+   mySQL <img align="center" alt="mysql" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-plain.svg">
+- Ferramentas de Desenvolvimento:
+   Docker <img align="center" alt="docker" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg">,
+   Git <img align="center" alt="git" height="30" width="35" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg">
+
 ## Conteúdo
 - **Exercícios em Sala de Aula:** Conjunto de atividades práticas realizadas durante as aulas.
 - **Projetos Individuais e em Grupo:** Apresentação de trabalhos desenvolvidos de forma colaborativa ou individual.
