@@ -18,6 +18,7 @@
         <label for=""> Type here your message!</label> <br>
         <textarea v-model="message"/> <br> <br>
         <button @click="sendMessage">Send</button>
+        <Button label="PrimeVue!!!"></Button>
         <hr>
         <div>
             <h5>Bard: 😊</h5>
@@ -28,8 +29,8 @@
 
 <style scoped>
      
-    button{
+    /* button{
         background-color: black;
         color: white;
-    }
+    } */
 </style>
