@@ -5,11 +5,11 @@ from bardapi import BardCookies
 import requests, json
 
 mockEnabled = True
-mockedAnswear = '{"content": "Mengoo", "contentId": "383rufu3rhf"}'
+mockedAnswear = '{"content":"Eu ainda sou um robô burro!", "contentId": "383rufu3rhf"}'
 
-psid = "g.a000gAhEPPHMVymwX2LTRa0QIf0HDfdKaA5iR57b9LfKNQb8jEHCr4PdUXuhaUP4XT2dG6wytwACgYKAbYSAQASFQHGX2Mi4JaDYnHOE4nbMCn9FF2elBoVAUF8yKrgYhvy_0Lsu9wJTxoD6yJ30076"
-psidts = "sidts-CjIBPVxjSj_CPGt92tbnUDWigzP90YDU2OIHeWsLtORIPU-46mfKFuNMZuIdDkJxrgX2kBAA"
-psidcc = "ABTWhQGgqVhkEvry6ZkmPaV3r7zymL3Euig9EopMfFES4A7BpxIHaoH3ubnSJrn1-KrWlfse"
+psid = "g.a000gghEPACF5fGl33bKfN0UQXptE08Gk1m82KeOe1zvZbLAMuAkFI5HgUQsljHOKEqCp-cYDwACgYKAa0SAQASFQHGX2Mi9zUo9T-8qjMT49aK7r10YRoVAUF8yKobrjzJWuMM0C0d-sgbaGVP0076"
+psidts = "sidts-CjEBYfD7Z0Vrm4iGoheOBdiM12YEVxFQEFPoHMXaze4vmM_3L9foC_Z6FzHcdb-uzBgtEAA"
+psidcc = "ABTWhQHo1yqtGqZY1ao_1rEyW1geAvjNEV6cy6FGurcvsMSKLc_EQ1ymRjwU8mya7g1769Z_lQ"
 #cria um conjunto com os tokens de autenticação
 #para poder usar o Bard
 tokenCookies = {
