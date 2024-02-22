@@ -1,6 +1,0 @@
-pip install torch torchvision nltk
-
-py
->>> import nltk
->>> nltk.download('punkt')
->>> quit()
