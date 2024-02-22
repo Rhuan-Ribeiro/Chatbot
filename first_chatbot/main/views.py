@@ -17,6 +17,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, I
 from ai import train, chat
 from django.http import JsonResponse
 
+from django.core.exceptions import ObjectDoesNotExist
+
 def strToDate(strDate):
     return datetime.strptime(strDate, '%Y-%m-%d').date()
 
@@ -173,7 +175,7 @@ class ChatBotAPIView(APIView):
         #chama a I.A.
         answer = chat.get_response(question)
 
-        newAnswer = Conversation(type="A",message=answer.message,history=conversationFound)
+        newAnswer = Conversation(type="A",message=answer.message if answer.additionalMessage is None else answer.message + '\n' + answer.additionalMessage,history=conversationFound)
         newAnswer.save()
         
         serializedAnswer = ConversationSerializer(newAnswer,many=False)
