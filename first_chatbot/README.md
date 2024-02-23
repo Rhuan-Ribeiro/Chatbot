@@ -11,7 +11,7 @@ Make sure to install the dependencies:
 py -m venv venv
 
 # Activating the virtual environment
-.venv/Scripts/activate
+.\venv\Scripts\activate
 
 # Installing dependencies
 pip install -r ./requirements.txt
@@ -23,7 +23,19 @@ Start the development server on `http://127.0.0.1:8000/`:
 
 ```bash
 # Running the server
-py ./manage.py runserver
+py .\manage.py runserver
 ```
 
-Check out the [deployment documentation](https://docs.djangoproject.com/en/5.0/howto/deployment/) for more information.
+## Migrations
+
+Migrations are Django’s way of propagating changes you make to your models (adding a field, deleting a model, etc.) into your database schema.
+
+```bash
+# Creating new migrations based on the changes you have made to your models.
+py .\manage.py makemigrations
+
+# Applying and unapplying migrations.
+py .\manage.py migrate
+```
+
+Check out the [Django Documentation](https://docs.djangoproject.com/en/5.0/) and [Rest Framework Documentation](https://www.django-rest-framework.org/) for more information.
