@@ -10,7 +10,7 @@ from datetime import timedelta, datetime
 from django_filters.rest_framework import DjangoFilterBackend
 from .customFilters import *
 from rest_framework import filters
-from django.db.models import Avg
+from django.db.models import Avg, Q
 
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser, IsAuthenticated, DjangoModelPermissionsOrAnonReadOnly
 
@@ -141,11 +141,22 @@ class AvailabilityView(CustomModelViewSet):
     # permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)  
 
 def convertToMessage(data, attributeName):
-    index = 1
-    response = ' \n '
-    for dt in data:
-        response += str(index) + ' - ' + getattr(dt, attributeName, None)
-        index += 1
+    # if not data.exists():
+    #     response = 'Desculpe, mas não encontrar o que você procura. Podemos tenta de novo?'
+    # else:
+    #     index = 1
+    #     response = ' \n '
+    #     for dt in data:
+    #         response += str(index) + ' - ' + getattr(dt, attributeName, None) + '\n'
+    #         index += 1
+    try:
+        index = 1
+        response = ' \n '
+        for dt in data:
+            response += str(index) + ' - ' + getattr(dt, attributeName, None) + '\n'
+            index += 1
+    except:
+        response = 'Desculpe, mas não encontrei o que você procura. Podemos tenta de novo?'
     return response
 
 
@@ -186,15 +197,27 @@ class ChatBotAPIView(APIView):
         # pega a mensagem de resposta da I.A.
         finalMessage = answer.message
 
+        newAnswer = None
+        #neste caso analisando o contexto da mensagem é procurandi uma viagem 
+        if conversationFound.lastCommand == 'SEARCH_TRIP':
+            trips = Trip.objects.filter(Q(title__icontains=question) | Q(description__icontains=question) | Q(city__icontains=question))
+            finalMessage = convertToMessage(trips, 'title')
+            # SELECT * FROM TRIP WHERE TITLE WHERE LIKE '%question%'
+            newAnswer = Conversation(type="A", message=finalMessage, history= conversationFound)
 
         #o usuario que enviou a mensagem deseja listas as viagens 
-        if answer.command == 'LIST_TRIPS':
+        elif answer.command == 'LIST_TRIPS':
             #buscando no banco de dados
             trips = Trip.objects.all()
             finalMessage += convertToMessage(trips, 'title')
+            newAnswer = Conversation(type="A",message=finalMessage if answer.additionalMessage is None else finalMessage + '\n' + answer.additionalMessage,history=conversationFound)
 
-
-        newAnswer = Conversation(type="A",message=finalMessage if answer.additionalMessage is None else finalMessage + '\n' + answer.additionalMessage,history=conversationFound)
+        else:
+            #atualiza no historico qual o último comando
+            conversationFound.lastCommand = answer.command
+            conversationFound.save()
+            newAnswer = Conversation(type="A",message=finalMessage if answer.additionalMessage is None else finalMessage + '\n' + answer.additionalMessage,history=conversationFound)
+            
         newAnswer.save()
         
         serializedAnswer = ConversationSerializer(newAnswer,many=False)
