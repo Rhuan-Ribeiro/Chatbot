@@ -1,6 +1,6 @@
 <script setup>
     const props = defineProps({
-        avatarImage: {type: String, required: true}, /* required: True faz o avatarImage ser obrigatório */
+        avatarImage: {type: String}, /* required: True faz o avatarImage ser obrigatório */
         name: {type: String},
         message: {type: String},
         type: {type: String},
@@ -39,14 +39,13 @@
 </template>
 
 <style scoped lang="sass">
-    .text-box
+    .text-box 
         .p-fieldset
             font-size: 1rem
             color: #000
     .right-style
         .p-fieldset 
             background-color: #90eebf
-    
     .left-style  
         .p-fieldset 
             background-color: #90ee90

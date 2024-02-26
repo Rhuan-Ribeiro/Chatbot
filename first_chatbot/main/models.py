@@ -114,7 +114,8 @@ class ConversationHistory(models.Model):
     lastCommand = models.CharField(max_length=30, blank=True, null=True)
     
     def __str__(self):
-        return self.user.email
+        print(str(self.id))
+        return str(self.id)
 
 CONVERSATION_TYPE = [
     ("Q", "Question"),
@@ -125,7 +126,7 @@ class Conversation(models.Model):
     type = models.CharField(max_length=10, choices=CONVERSATION_TYPE)
     message = models.CharField(max_length=3000)
     date = models.DateTimeField(auto_now_add=True)
-    history = models.ForeignKey(ConversationHistory,related_name='history',on_delete=models.CASCADE)
+    history = models.ForeignKey(ConversationHistory, to_field='id',related_name='history',on_delete=models.CASCADE)
 
     def __str__(self):
         return self.type

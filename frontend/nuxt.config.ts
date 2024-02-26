@@ -6,8 +6,8 @@ export default defineNuxtConfig({
 ],
 primevue: {
     components: {
-      include: ['Button', 'Fieldset', 'Avatar']
+      include: ['Button', 'Fieldset', 'Avatar', 'Textarea']
     },
 },
-  css: ['primevue/resources/themes/md-light-indigo/theme.css'],
+  css: ['primevue/resources/themes/md-light-indigo/theme.css', 'primeicons/primeicons.css'],
 })

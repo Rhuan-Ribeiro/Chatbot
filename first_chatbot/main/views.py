@@ -161,6 +161,24 @@ def convertToMessage(data, attributeName):
 
 
 class ChatBotAPIView(APIView):
+    def get(self, request):
+        data = request.data
+        conversationId = data.get('conversationId')
+        print("id:", conversationId)
+
+        if conversationId is None:
+            return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId'})
+        else:
+            try:
+                conversationFound = Conversation.objects.filter(history=conversationId)
+                print("Found:", conversationFound)
+            except ObjectDoesNotExist:
+                return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
+            
+        serializedConversation = ConversationSerializer(conversationFound, many=True)
+        print("serialized:", serializedConversation.data)
+        return JsonResponse(status=200, data=serializedConversation.data, safe=False)
+    
     def post(self, request):
         data = request.data
         question = data.get('question')
@@ -221,6 +239,6 @@ class ChatBotAPIView(APIView):
         newAnswer.save()
         
         serializedAnswer = ConversationSerializer(newAnswer,many=False)
-               
+        print(conversationFound)
         return JsonResponse(status=201, data=serializedAnswer.data)
 
