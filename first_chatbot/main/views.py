@@ -161,12 +161,9 @@ def convertToMessage(data, attributeName):
 
 
 class ChatBotAPIView(APIView):
-    def get(self, request):
-        data = request.data
-        conversationId = data.get('conversationId')
+    def get(self, request, conversationId = ''):
         print("id:", conversationId)
-
-        if conversationId is None:
+        if conversationId == '':
             return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId'})
         else:
             try:

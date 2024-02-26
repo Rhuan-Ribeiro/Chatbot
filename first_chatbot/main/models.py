@@ -44,6 +44,7 @@ class CustomUser(models.Model):
     address = models.CharField(max_length=200)
     taxId = models.CharField(max_length=30)
 
+
     def __str__(self):
         return self.user.email
 

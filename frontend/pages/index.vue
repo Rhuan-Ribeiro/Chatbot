@@ -1,22 +1,5 @@
 <script setup>
-        const testHistory = async () => {
-            let historyId = 39;
-            const {data: getHistory} = await useFetch('http://localhost:8000/chatbot/',{
-                // method: 'GET',
-                body:{
-                    // userId: 2,
-                    "conversationId": historyId
-                }   
-            })
-            //console.log("type:", getHistory.value.type)
-            console.log("message:", getHistory)
-            // console.log("id:", getHistory.value.id)
-            // console.log("fetch:", getHistory)
-        }
-        
     
-    
-
     let response = ref("")
     const dialog = reactive({
         text: '',
@@ -42,6 +25,23 @@
         );
         console.log(conversationHistory.value);
     });
+
+    const History = async () => {
+            let historyId = 39;
+            const {data: getHistory} = await useFetch(`http://localhost:8000/chatbot/${historyId}`,{
+                method: 'GET'
+            })
+            console.log("value:", getHistory.value)
+        }
+
+    History()
+    
+
+    for (message in History()) {
+        dialog.text = message.getHistory.value.message
+        dialog.historyId = message.getHistory.value.history.id
+        includeDialog(message.getHistory.value.type);
+    }
     
     const sendMessage = async () => {
         console.log(dialog.text);
@@ -71,7 +71,7 @@ const conversationHistory = ref([])
     <div>
         <div v-for="(conversation, id) in conversationHistory" :key="id">
             <TextBox :name="conversation.name" :avatarImage="conversation.image" 
-                :message="conversation.text" :type="conversation.type"/>
+                :message="conversation.message" :type="conversation.type"/>
         </div>
 
         <!-- <div v-for="(conversation, id) in getHistory" :key="id">
