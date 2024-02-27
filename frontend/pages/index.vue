@@ -23,25 +23,28 @@
         conversationHistory.value.push(
             JSON.parse(JSON.stringify(dialog))
         );
-        console.log(conversationHistory.value);
+        // console.log(conversationHistory.value);
     });
 
-    const History = async () => {
-            let historyId = 39;
+    const History = async (historyId) => {
             const {data: getHistory} = await useFetch(`http://localhost:8000/chatbot/${historyId}`,{
                 method: 'GET'
             })
-            console.log("value:", getHistory.value)
+            return getHistory;
         }
 
-    History()
-    
+    const processHistory = async () => {
+        const history = await History(39);
+        for (const message of history.value) {
+            dialog.text = message.message;
+            dialog.historyId = message.history.id;
+            includeDialog(message.type);
+            dialog.text = '';
+            dialog.historyId = null;
+        }
+    };
 
-    for (message in History()) {
-        dialog.text = message.getHistory.value.message
-        dialog.historyId = message.getHistory.value.history.id
-        includeDialog(message.getHistory.value.type);
-    }
+    processHistory();
     
     const sendMessage = async () => {
         console.log(dialog.text);
@@ -68,28 +71,17 @@ const conversationHistory = ref([])
 </script>
 
 <template>
-    <div>
+    <div id="chat">
         <div v-for="(conversation, id) in conversationHistory" :key="id">
             <TextBox :name="conversation.name" :avatarImage="conversation.image" 
-                :message="conversation.message" :type="conversation.type"/>
+                :message="conversation.text" :type="conversation.type"/>
         </div>
-
-        <!-- <div v-for="(conversation, id) in getHistory" :key="id">
-            <p> {{ conversation.value.message  }}</p>        
-        </div> -->
         <div class="card flex justify-content-center align-items-center">
             <Textarea v-model="dialog.text" placeholder="Message Chatbot..." autoResize rows="1" cols="25" />
             <Button @click="sendMessage" icon="pi pi-send" aria-label="Filter"></Button>
-            <Button @click="testHistory" icon="pi pi-server" aria-label="Filter"></Button>
-        </div>
-        
-        <hr>
-        <div>
-            <h5>Bard: 😎</h5>
-            <p> {{  }} </p>
         </div>
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="sass">
 </style>
