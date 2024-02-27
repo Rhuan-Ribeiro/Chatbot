@@ -45,9 +45,9 @@
             color: #000
     .right-style
         .p-fieldset 
-            background-color: #90eebf
+            background-color: var(--primary-400)
     .left-style  
         .p-fieldset 
-            background-color: #90ee90
+            background-color: var(--primary-200)
     
 </style>

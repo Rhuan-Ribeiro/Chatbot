@@ -161,21 +161,24 @@ def convertToMessage(data, attributeName):
 
 
 class ChatBotAPIView(APIView):
-    def get(self, request, conversationId = ''):
-        print("id:", conversationId)
-        if conversationId == '':
-            return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId'})
-        else:
+    def get(self, request, conversationId = '', userId = ''):
+        if (conversationId != '' and userId == ''):
             try:
                 conversationFound = Conversation.objects.filter(history=conversationId)
-                print("Found:", conversationFound)
+                serializedConversation = ConversationSerializer(conversationFound, many=True)
+                return JsonResponse(status=200, data=serializedConversation.data, safe=False)
             except ObjectDoesNotExist:
                 return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
+        elif (conversationId == '' and userId != ''):
+            try:
+                conversationFound = ConversationHistory.objects.filter(user=userId)
+                serializedConversation = ConversationHistorySerializer(conversationFound, many=True)
+                return JsonResponse(status=200, data=serializedConversation.data, safe=False)
+            except ObjectDoesNotExist:
+                return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
+        else:
+            return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId ou userId'})
             
-        serializedConversation = ConversationSerializer(conversationFound, many=True)
-        print("serialized:", serializedConversation.data)
-        return JsonResponse(status=200, data=serializedConversation.data, safe=False)
-    
     def post(self, request):
         data = request.data
         question = data.get('question')
