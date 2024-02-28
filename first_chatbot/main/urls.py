@@ -14,7 +14,6 @@ router.register(r'availability',AvailabilityView)
 
 urlpatterns = router.urls
 urlpatterns.append( path('tripScore/<int:tripId>/', ScoreAverageView.as_view(), name='trip-score-average'))
-urlpatterns.append( path('chatbot/', ChatBotAPIView.as_view(), name='chatbot'))
-urlpatterns.append( path('chatbot/conversation/<int:conversationId>/', ChatBotAPIView.as_view(), name='chatbotConversationId'))
-urlpatterns.append( path('chatbot/user/<int:userId>/', ChatBotAPIView.as_view(), name='chatbotUserId'))
-
+urlpatterns.append( path('chatbot/', ChatBotAPIView.as_view(), name='chatbot')) # Post
+urlpatterns.append( path('chatbot/conversation/<int:conversationId>/', ConversationView.as_view(), name='chatbotConversation')) # Get das mensagens pelo id da conversa
+urlpatterns.append( path('chatbot/history/', ConversationHistoryView.as_view(), name='chatbotHistory')) # Get das conversas pelo id do usuario

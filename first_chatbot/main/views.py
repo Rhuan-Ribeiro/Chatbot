@@ -159,25 +159,53 @@ def convertToMessage(data, attributeName):
         response = 'Desculpe, mas não encontrei o que você procura. Podemos tenta de novo?'
     return response
 
-
-class ChatBotAPIView(APIView):
-    def get(self, request, conversationId = '', userId = ''):
-        if (conversationId != '' and userId == ''):
+class ConversationView(APIView):
+    def get(self, request, conversationId = ''):
+        if (conversationId != ''):
             try:
                 conversationFound = Conversation.objects.filter(history=conversationId)
                 serializedConversation = ConversationSerializer(conversationFound, many=True)
                 return JsonResponse(status=200, data=serializedConversation.data, safe=False)
             except ObjectDoesNotExist:
                 return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
-        elif (conversationId == '' and userId != ''):
-            try:
-                conversationFound = ConversationHistory.objects.filter(user=userId)
-                serializedConversation = ConversationHistorySerializer(conversationFound, many=True)
-                return JsonResponse(status=200, data=serializedConversation.data, safe=False)
-            except ObjectDoesNotExist:
-                return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
         else:
-            return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId ou userId'})
+            return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId'})
+
+class ConversationHistoryView(APIView):
+    def get(self, request):
+        userId = 2
+
+        conversationFound = ConversationHistory.objects.filter(user=userId)
+        serializedConversation = ConversationHistorySerializer(conversationFound, many=True)
+    
+        list_return = []
+    
+        for obj in serializedConversation.data:
+            
+            conversationFound = Conversation.objects.filter(history=obj.get('id'), type='A').order_by('-id').first()
+            lastMessage = ConversationSerializer(conversationFound, many=False)
+            
+            obj['last_message'] = lastMessage.data.get('message')
+            list_return.append(obj)
+    
+        return JsonResponse(status=200, data=list_return, safe=False)
+
+class ChatBotAPIView(APIView):
+    # def get(self, request, conversationId = '', userId = ''):
+    #     if (conversationId != '' and userId == ''):
+    #         try:
+    #             conversationFound = Conversation.objects.filter(history=conversationId)
+    #             serializedConversation = ConversationSerializer(conversationFound, many=True)
+    #             return JsonResponse(status=200, data=serializedConversation.data, safe=False)
+    #         except ObjectDoesNotExist:
+    #             return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
+    #     elif (conversationId == '' and userId != ''):
+    #         try:
+                
+    #         except ObjectDoesNotExist:
+    #             return JsonResponse(status=500,data={'content': 'Conversa não encontrada!'})
+    #     else:
+    #         return JsonResponse(status=400,data={'content': 'Sem parametro de conversationId ou userId'})
             
     def post(self, request):
         data = request.data

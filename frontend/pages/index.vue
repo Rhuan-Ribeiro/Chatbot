@@ -1,6 +1,4 @@
 <script setup>
-
-let response = ref("")
 const dialog = reactive({
     text: '',
     type: '',
@@ -23,18 +21,13 @@ const includeDialog = ((type) => {
     conversationHistory.value.push(
         JSON.parse(JSON.stringify(dialog))
     );
-    // console.log(conversationHistory.value);
 });
 
-const History = async (historyId) => {
-    const { data: getHistory } = await useFetch(`http://localhost:8000/chatbot/conversation/${historyId}`, {
+const Messages = async (historyId) => {
+    const { data: getMessages } = await useFetch(`http://localhost:8000/chatbot/conversation/${historyId}`, {
         method: 'GET'
     })
-    return getHistory;
-}
-
-const processHistory = async () => {
-    const history = await History(39);
+    const history = getMessages
     for (const message of history.value) {
         dialog.text = message.message;
         dialog.historyId = message.history.id;
@@ -42,9 +35,9 @@ const processHistory = async () => {
         dialog.text = '';
         dialog.historyId = null;
     }
-};
+}
 
-processHistory();
+Messages(39);
 
 const sendMessage = async () => {
     console.log(dialog.text);
@@ -67,18 +60,17 @@ const sendMessage = async () => {
 
 //armazena em tela o histórico das mensagens
 const conversationHistory = ref([])
-
 </script>
 
 <template>
-    <Splitter style="height: 97 vh">
+    <Splitter style="height: 98vh">
         <SplitterPanel class="flex align-items-center justify-content-center" :size="25" :minSize="10">
             <ScrollPanel>
                 Panel 1
             </ScrollPanel>
         </SplitterPanel>
         <SplitterPanel class="flex align-items-center justify-content-center" :size="75">
-            <ScrollPanel style="width: 100%; height: 87vh" :pt="{
+            <ScrollPanel style="width: 100%; height: 94%" :pt="{
                 wrapper: {
                     style: { 'border-right': '10px solid var(--surface-ground)', 'margin-bottom': '5px' }
                 },
