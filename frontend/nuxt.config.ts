@@ -6,8 +6,8 @@ export default defineNuxtConfig({
 ],
 primevue: {
     components: {
-      include: ['Button', 'Fieldset', 'Avatar', 'Textarea', 'splitter', 'splitterpanel', 'scrollpanel']
+      include: ['Button', 'Fieldset', 'Avatar', 'Textarea', 'splitter', 'splitterpanel', 'scrollpanel', 'listbox', 'List']
     },
 },
-  css: ['primevue/resources/themes/md-light-indigo/theme.css', 'primeicons/primeicons.css'],
+  css: ['primevue/resources/themes/aura-dark-indigo/theme.css', 'primeicons/primeicons.css'],
 })

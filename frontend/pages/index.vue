@@ -4,7 +4,7 @@ const dialog = reactive({
     type: '',
     name: '',
     image: '',
-    historyId: null
+    historyId: null,
 });
 
 const includeDialog = ((type) => {
@@ -33,14 +33,12 @@ const Messages = async (historyId) => {
         dialog.historyId = message.history.id;
         includeDialog(message.type);
         dialog.text = '';
-        dialog.historyId = null;
     }
 }
 
-Messages(39);
-
 const sendMessage = async () => {
-    console.log(dialog.text);
+    let historyIsNull = false
+    if (dialog.historyId == null) { historyIsNull = true }
     includeDialog('Q');
 
     //message.value;
@@ -52,27 +50,94 @@ const sendMessage = async () => {
             conversationId: dialog.historyId
         }
     })
-    dialog.text = answer.value.message
-    dialog.historyId = answer.value.history.id
+    dialog.text = answer.value.message;
+    dialog.historyId = answer.value.history.id;
     includeDialog('A');
     dialog.text = '';
+    if (historyIsNull) { userConversations() }
 }
 
 //armazena em tela o histórico das mensagens
-const conversationHistory = ref([])
+const conversationHistory = ref([]);
+
+const conversation = reactive({
+    id: null,
+    lastMessage: '',
+});
+
+const Conversations = ref([]);
+
+const includeConversation = () => {
+    // Faz a cópia profunda da estrutura com os valores atuais (deep copy)
+    Conversations.value.push(
+        JSON.parse(JSON.stringify(conversation))
+    );
+};
+
+function limitString(str) {
+    return str.length > 20 ? str.substring(0, 20) + "..." : str;
+}
+
+const userConversations = async () => {
+    const { data: getConversations } = await useFetch(`http://127.0.0.1:8000/chatbot/history/`, {
+        method: 'GET'
+    });
+
+    Conversations.value = [];
+    for (const userConversation of getConversations.value) {
+        conversation.id = userConversation.id;
+        conversation.lastMessage = userConversation.id + ' - ' + limitString(userConversation.lastMessage);
+        includeConversation();
+        conversation.id = null;
+        conversation.lastMessage = '';
+    }
+};
+
+userConversations();
+
+const selectedConversation = ref(null);
+
+watch(selectedConversation, (newValue, oldValue) => {
+    console.log(selectedConversation._value.id);
+    const historyId = selectedConversation.value.id;
+    conversationHistory.value = [];
+    dialog.historyId = historyId;
+    Messages(historyId);
+})
+
+const newChat = async () => {
+    dialog.historyId = null;
+    conversationHistory.value = [];
+    userConversations();
+
+}
+
+console.log(Conversations)
+
 </script>
 
 <template>
-    <Splitter style="height: 98vh">
+    <Splitter style="height: 96vh">
         <SplitterPanel class="flex align-items-center justify-content-center" :size="25" :minSize="10">
-            <ScrollPanel>
-                Panel 1
+            <div style="width: 100%; height: 10%;">
+                <Button @click="newChat" label="Create New Chat" aria-label="Send" class="newChatButton"></Button>
+            </div>
+            <ScrollPanel style="width: 100%; height: 90%" :pt="{
+                wrapper: {
+                    style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
+                },
+                bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
+            }">
+                <div class="card flex justify-content-center">
+                    <Listbox v-model="selectedConversation" :options="Conversations" optionLabel="lastMessage"
+                        class="w-full md:w-14rem" />
+                </div>
             </ScrollPanel>
         </SplitterPanel>
-        <SplitterPanel class="flex align-items-center justify-content-center" :size="75">
-            <ScrollPanel style="width: 100%; height: 94%" :pt="{
+        <SplitterPanel class="flex align-items-center justify-content-center space-around" :size="75">
+            <ScrollPanel class="scroll-panel" style="width: 100%; height: 90%" :pt="{
                 wrapper: {
-                    style: { 'border-right': '10px solid var(--surface-ground)', 'margin-bottom': '5px' }
+                    style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
                 },
                 bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
             }">
@@ -81,7 +146,7 @@ const conversationHistory = ref([])
                         :type="conversation.type" />
                 </div>
             </ScrollPanel>
-            <div class="card flex justify-content-center p-inputgroup" style="width: 100%;">
+            <div class="card flex justify-content-center p-inputgroup input-container">
                 <Textarea v-model="dialog.text" placeholder="Message Chatbot..." autoResize rows="1" class="p-inputtext"
                     style="width: 100%;"></Textarea>
                 <Button @click="sendMessage" icon="pi pi-send" aria-label="Send" style="min-width: auto;"></Button>
@@ -94,8 +159,26 @@ const conversationHistory = ref([])
     @import "https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap')
     template
-        max-width: 100vw
-        max-height: 100vh
+        max-width: 100vw !important
+        max-height: 100vh !important
     *
         font-family: 'Roboto', 'Poppins', sans-serif
+    .p-listbox
+        border: none        
+    .scroll-panel 
+        height: calc(100% - 20px)
+        width: 100%
+    .input-container 
+        height: 10%
+        width: 100%
+        
+    .newChatButton
+        width: 100%
+        height: 100%
+        display: flex
+        justify-content: center
+        align-items: center
+        font-weight: 600
+        font-size: 1.5rem
+        
 </style>
