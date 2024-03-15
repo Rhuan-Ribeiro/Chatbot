@@ -25,15 +25,16 @@ export default defineNuxtConfig({
       type: 'local', // local vai manter o token até acontecer o logout, assim como o Webtoken
       // type: 'refresh', // refresh vai atualiar o token de acesso, assim como o JWT
       endpoints: {
-        signIn: { path: '/api/auth/token/login', method: 'POST' }, // rota de login
-        signOut: { path: '/api/auth/token/logout/', method: 'POST' }, // rota de logout
+        signIn: { path: '/token/login/', method: 'POST' }, // rota de login
+        signOut: { path: '/token/logout/', method: 'POST' }, // rota de logout
         signUp: { path: '', method: 'get' }, // rota de cadastro
-        signSession: { path: '/api/auth/token/logout/', method: 'get' }, // rota autenticada para verificação se foi autenticado c/ sucesso
+        signSession: { path: '/users/', method: 'get' }, // rota autenticada para verificação se foi autenticado c/ sucesso
         // refresh: {}, // rota para renovar o token (somente no type refreh)
       },
       token: {
         signInResponseTokenPointer: '/auth_token', // indica o local do Token Acess na response do Backend
-        //maxAgeInSeconds: 600, // validade do token refresh
+        //maxAgeInSeconds: 600, // validade do token acess
+        type: 'Token'
       },
       // refreshToken: { signInResponseRefreshTokenPointer: '', // Local do Token Refresh
       // maxAgeInSeconds: 600, // validade do token refresh

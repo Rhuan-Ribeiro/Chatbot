@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import { ref, computed, reactive } from 'vue'
+    const { signIn } = useAuth(); // Importa a função do login do sidebase
     
     //JÉSSICA NÃO TRANQUE O CURSO:
     //const username = ref('')
@@ -10,27 +11,18 @@
         password: ''
     });
 
-
-
-    /*
-    exemplos para explicar typescript
-    const teste = 'ok'
-    const value1 = ref(0)
-    const value2 = ref(0)   
-    const makeMul = (n1:number,n2:number):number => n1 * n2
-
-    const result = computed(()=> makeMul(value1.value,value2.value))*/
+    const submitLogin = async () => {
+        console.log("trying to login with credentials below: ", credentials);
+        try {
+            await signIn(credentials, {redirect: false}); // tenta logar
+            navigateTo('/home'); // redireciona para a página home se o login der certo
+        } catch(error){
+            console.log("Error when trying to login:", error)
+        }
+    }
 </script>
 
 <template>
-    <!--
-    <div>
-        <h1>My HomePage!!!</h1>
-        <p>{{ teste }}</p>
-        <input type="text" v-model="value1">
-        <input type="text" v-model="value2">
-        <p>Result: {{ result }}</p>
-    </div>-->
     <main class="flex_center login_main"> 
         <!-- content of logo image -->
         <section class="logo_panel flex_center">
@@ -46,7 +38,7 @@
          <section class="login_panel">
             <div class="login_content flex_center">
                 <h1>LOGIN</h1>
-                <form class="login_form">
+                <form class="login_form" v-on:submit.prevent="submitLogin">
                     <div class="input_container">
                         <CustomInput label="LOGIN" inputId="user_login"
                             v-model="credentials.username"
@@ -89,8 +81,6 @@
                 width: 65%
                 height: 45%
             
-        
-
         .login_panel
             width: 100vw
             height: 100vh  
@@ -111,15 +101,10 @@
                     width: 60%
                     .input_container
                         margin-top: 30px
-                    
+
                     .customButton
                         margin-top: 50px
                     
-                
-            
-        
-    
-
     @media screen and (min-width: 550px)
         .login_main
             .login_panel
