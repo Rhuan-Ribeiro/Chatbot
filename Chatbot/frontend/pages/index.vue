@@ -120,14 +120,15 @@ console.log(Conversations)
     <Splitter style="height: 96vh">
         <SplitterPanel class="flex align-items-center justify-content-center" :size="25" :minSize="10">
             <div style="width: 100%; height: 10%;">
-                <Button @click="newChat" label="Create New Chat" aria-label="Send" class="newChatButton"></Button>
+                <Button @click="newChat" label="New Chat＋" class="newChatButton" iconPos="right">
+                </Button>
             </div>
             <ScrollPanel style="width: 100%; height: 90%" :pt="{
-                wrapper: {
-                    style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
-                },
-                bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
-            }">
+            wrapper: {
+                style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
+            },
+            bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
+        }">
                 <div class="card flex justify-content-center">
                     <Listbox v-model="selectedConversation" :options="Conversations" optionLabel="lastMessage"
                         class="w-full md:w-14rem" />
@@ -136,11 +137,11 @@ console.log(Conversations)
         </SplitterPanel>
         <SplitterPanel class="flex align-items-center justify-content-center space-around" :size="75">
             <ScrollPanel class="scroll-panel" style="width: 100%; height: 90%" :pt="{
-                wrapper: {
-                    style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
-                },
-                bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
-            }">
+            wrapper: {
+                style: { 'border-right': '10px solid var(--surface-ground)', 'padding': '10px 5px 10px 10px' }
+            },
+            bary: 'hover:bg-primary-400 bg-primary-300 opacity-100'
+        }">
                 <div v-for="(conversation, id) in conversationHistory" :key="id">
                     <TextBox :name="conversation.name" :avatarImage="conversation.image" :message="conversation.text"
                         :type="conversation.type" />
@@ -175,10 +176,6 @@ console.log(Conversations)
     .newChatButton
         width: 100%
         height: 100%
-        display: flex
-        justify-content: center
-        align-items: center
         font-weight: 600
         font-size: 1.5rem
-        
 </style>
