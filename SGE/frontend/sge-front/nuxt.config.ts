@@ -28,7 +28,7 @@ export default defineNuxtConfig({
         signIn: { path: '/token/login/', method: 'POST' }, // rota de login
         signOut: { path: '/token/logout/', method: 'POST' }, // rota de logout
         signUp: { path: '', method: 'get' }, // rota de cadastro
-        signSession: { path: '/users/', method: 'get' }, // rota autenticada para verificação se foi autenticado c/ sucesso
+        getSession: { path: '/users/', method: 'get' }, // rota autenticada para verificação se foi autenticado c/ sucesso
         // refresh: {}, // rota para renovar o token (somente no type refreh)
       },
       token: {

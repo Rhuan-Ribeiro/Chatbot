@@ -11,14 +11,31 @@
         password: ''
     });
 
-    const submitLogin = async () => {
+    // Promises
+    // Para lidar com promises, podemos usar o try/catch com async/await
+    // const submitLogin = async () => {
+    //     console.log("trying to login with credentials below: ", credentials);
+    //     try {
+    //         await signIn(credentials, {redirect: false}); // tenta logar
+    //         navigateTo('/home'); // redireciona para a página home se o login der certo
+    //     } catch(e){
+    //         console.log("Error when trying to login:", e);
+    //     }
+    // }
+
+    // também podemos lidar com promises usando o then/catch
+    const submitLogin = () => {
         console.log("trying to login with credentials below: ", credentials);
-        try {
-            await signIn(credentials, {redirect: false}); // tenta logar
+        signIn(credentials, {redirect: false}).then(()=>{
+            // Só entrará nesse bloco se for for "then", se der certo a promise
+            console.log("sucessfully logged!");
             navigateTo('/home'); // redireciona para a página home se o login der certo
-        } catch(error){
-            console.log("Error when trying to login:", error)
-        }
+        })
+        // se o "then" da promise falhou, então esse bloco que será executado         
+        .catch((e)=>{
+            console.log("Error when trying to login:", e);
+        });
+        // .finally(()=>{ }) // seria executado se der certo ou errado
     }
 </script>
 
