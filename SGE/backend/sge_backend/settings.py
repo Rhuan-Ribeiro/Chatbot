@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     'app' # nosso app
 ]
 
+# informa para o django usar o CustomUser ao inves do User padrão
+AUTH_USER_MODEL = 'main.CustomUser'
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
