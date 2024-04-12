@@ -30,15 +30,15 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-production_server = 'https://www.sge.up.railway.app'
+production_server = 'https://sge.up.railway.app'
 
 ALLOWED_HOSTS =  ['*']
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'http://localhost',
-#     '127.0.0.1',
-#     production_server
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    '127.0.0.1',
+    production_server
+]
 
 
 # Application definition
